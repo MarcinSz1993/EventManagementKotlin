@@ -1,0 +1,26 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/EventManagementDB
+    username: postgres
+    password: ${PG_PASS:qwerty}
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+weather:
+  api:
+    apiKey: 7e546b0a93e0436896c160950242605
+    baseUrl: https://api.weatherapi.com/v1/forecast.json
