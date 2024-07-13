@@ -1,7 +1,7 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/EventManagementDB
+    url: jdbc:postgresql://localhost:5432/EventManagementKotlinDB
     username: postgres
     password: ${PG_PASS:qwerty}
     driver-class-name: org.postgresql.Driver
