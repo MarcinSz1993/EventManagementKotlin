@@ -22,14 +22,17 @@ import java.time.LocalDateTime
 data class EventService(
     val eventRepository: EventRepository,
     val userRepository: UserRepository,
-    val jwtService: JwtService
+    val jwtService: JwtService,
+    val kafkaMessageProducer: KafkaMessageProducer
 ) {
     @Transactional
     fun createEvent(createEventRequest: CreateEventRequest, user: User):EventDto {
         val event = EventMapper.convertCreateEventRequestToEvent(createEventRequest)
         event.organizer = user
         eventRepository.save(event)
-        return EventMapper.convertCreateEventRequestToEventDto(createEventRequest, user)
+        val eventDto = EventMapper.convertCreateEventRequestToEventDto(createEventRequest, user)
+        kafkaMessageProducer.sendCreatedEventMessageToAllEventsTopic(eventDto)
+        return eventDto
     }
 
     fun updateEvent(updateEventRequest: UpdateEventRequest, eventId: Long, token: String):EventDto {

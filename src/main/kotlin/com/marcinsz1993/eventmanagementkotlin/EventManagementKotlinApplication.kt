@@ -1,9 +1,11 @@
 package com.marcinsz1993.eventmanagementkotlin
 
+import com.marcinsz1993.eventmanagementkotlin.configuration.KafkaConfiguration
 import com.marcinsz1993.eventmanagementkotlin.mapper.PolishCharactersMapper
 import com.marcinsz1993.eventmanagementkotlin.service.EventService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.ApplicationContext
 import java.time.LocalDate
