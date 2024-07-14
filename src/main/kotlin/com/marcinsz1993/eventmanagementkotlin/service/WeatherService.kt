@@ -46,9 +46,9 @@ class WeatherService(
     }
 }
 
-private fun validateDate(eventDate: LocalDate): Boolean {
-    val days = ChronoUnit.DAYS.between(LocalDate.now(), eventDate)
-    return days >= 14
+    private fun validateDate(eventDate: LocalDate): Boolean {
+        val days = ChronoUnit.DAYS.between(LocalDate.now(), eventDate)
+        return days >= 14
 }
 
 

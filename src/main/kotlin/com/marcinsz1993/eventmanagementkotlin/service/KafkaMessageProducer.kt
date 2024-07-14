@@ -15,35 +15,26 @@ class KafkaMessageProducer(
     val kafkaConfiguration: KafkaConfiguration,
     val eventDtoKafkaTemplate: KafkaTemplate<String,EventDto>
 ) {
-
     fun sendCreatedEventMessageToAllEventsTopic(eventDto: EventDto) {
         try {
             val allEventsKotlin = eventDtoKafkaTemplate.send(kafkaConfiguration.allEventsTopicKotlin, eventDto)
             allEventsKotlin.whenComplete { result: SendResult<String?, EventDto?>, ex: Throwable? ->
                 if (ex == null) {
-                    println(
-                        "Sent message: $eventDto" +
-                                "with offset: " + result.recordMetadata.offset()
-                    )
-                } else {
-                    println("Unable to send message: $eventDto")
+                    println("Sent message: $eventDto" + "with offset: " + result.recordMetadata.offset())
+                } else { println("Unable to send message: $eventDto")
                 }
             }
         } catch (ex: Exception) {
             println("Error: " + ex.message)
         }
     }
-
     fun sendCancelledMessageToEventCancelledTopic(eventDto: EventDto) {
         try {
             val cancelledEventsKotlin: CompletableFuture<SendResult<String?, EventDto?>> =
                 eventDtoKafkaTemplate.send(kafkaConfiguration.cancelledEventsTopicKotlin, eventDto)
             cancelledEventsKotlin.whenComplete { result: SendResult<String?, EventDto?>, ex: Throwable? ->
                 if (ex == null) {
-                    println(
-                        "Sent message: " + eventDto
-                                + "with offset: " + result.recordMetadata.offset()
-                    )
+                    println("Sent message:  + $eventDto with offset: " + result.recordMetadata.offset())
                 } else {
                     println("Unable to send message: $eventDto")
                 }

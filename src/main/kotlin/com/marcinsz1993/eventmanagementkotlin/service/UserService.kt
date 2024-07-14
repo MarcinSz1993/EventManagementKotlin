@@ -23,13 +23,13 @@ class UserService(
     val authenticationManager: AuthenticationManager
 ) {
     @Transactional
-    fun createUser(createUserRequest: CreateUserRequest):CreateUserResponse{
+    fun createUser(createUserRequest: CreateUserRequest): CreateUserResponse {
         val newUser = UserMapper.convertCreateUserRequestToUser(createUserRequest)
         newUser.passwordField = passwordEncoder.encode(createUserRequest.password)
         userRepository.save(newUser)
         val userDto = UserMapper.convertUserToUserDto(newUser)
         val token = jwtService.generateToken(newUser)
-        return CreateUserResponse(userDto,token)
+        return CreateUserResponse(userDto, token)
     }
 
     @Throws(BadCredentialsException::class)

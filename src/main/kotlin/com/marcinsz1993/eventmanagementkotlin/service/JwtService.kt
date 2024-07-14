@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service
 import java.util.*
 import java.util.function.Function
 import javax.crypto.SecretKey
+
 @Service
-class JwtService (
-    val SECRET_KEY:String = "d87382f9b30cb375d74a6d337867cd32dbfc3bbd4062fee7fabd8"
-){
+class JwtService(
+    val SECRET_KEY: String = "d87382f9b30cb375d74a6d337867cd32dbfc3bbd4062fee7fabd8"
+) {
     fun extractUsername(token: String?): String {
         return extractClaim(token) { obj: Claims -> obj.subject }
     }
@@ -35,8 +36,6 @@ class JwtService (
     private fun extractExpiration(token: String?): Date {
         return extractClaim(token) { obj: Claims -> obj.expiration }
     }
-
-
     private fun extractAllClaims(token: String?): Claims {
         return Jwts
             .parser()
@@ -45,7 +44,6 @@ class JwtService (
             .parseSignedClaims(token)
             .payload
     }
-
     fun generateToken(user: User): String? {
         return Jwts
             .builder()
@@ -55,12 +53,8 @@ class JwtService (
             .signWith(getSigningKey())
             .compact()
     }
-
     private fun getSigningKey(): SecretKey? {
         val keyBytes = Decoders.BASE64URL.decode(SECRET_KEY)
         return Keys.hmacShaKeyFor(keyBytes)
     }
-
-
-
 }

@@ -129,6 +129,7 @@ data class EventService(
             throw IllegalArgumentException("You can delete your events only!")
         }
         eventRepository.deleteById(eventId)
+        kafkaMessageProducer.sendCancelledMessageToEventCancelledTopic(eventDto)
         return eventName!!
     }
 
